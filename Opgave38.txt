@@ -1,0 +1,2 @@
+Vi kan bruge matrix_PageRank selvom algoritmen kun er en aporksimation fordi at den fejl der vil forekomme er enomrt lille, 
+hvilke resulterer i at algoritmen stadig vil ende det korrekte sted.
