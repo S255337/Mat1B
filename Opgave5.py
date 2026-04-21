@@ -1,35 +1,29 @@
-import networkx as nx
-import matplotlib.pyplot as plt
+import numpy as np
 
-def visualize_graph(web):
+def make_web(n, k, kmin=0):
+
+    # Input: n og k er ikke-negative heltal
+    # Output: web er en dictionary med n nøgler.
+    # Værdien af hver nøgle er en mængde, der er en delmængde af nøglerne.
     
-    G = nx.DiGraph()
-
-    for node, links in web.items():
-        for target in links:
-            G.add_edge(node, target)
-
-    pos = nx.spring_layout(G)
-
-    nx.draw(
-        G,
-        pos,
-        with_labels=True,
-        node_size=2000,
-        node_color="lightblue",
-        arrows=True
-    )
-
-    plt.show()
-
-
-
-web = {
-    0: {1, 2},
-    1: {2},
-    2: {0},
-    3: set()
-}
-
-
-visualize_graph(web)
+    assert(k < n), "k skal være mindre end n (da man ikke kan linke til sig selv)"
+    assert(kmin <= k), "kmin skal være mindre end eller lig med k"
+    
+    # n nøgler fra 0 til n-1
+    keys = list(range(n))
+    
+    web = dict()
+    
+    for j in keys:
+        # tilfældigt antal links mellem kmin og k (inklusive)
+        numlinks = np.random.randint(kmin, k + 1)
+        
+        # mulige sider at linke til (undgå j selv)
+        possible_links = list(set(keys) - {j})
+        
+        # vælg numlinks unikke links
+        links = np.random.choice(possible_links, size=numlinks, replace=False)
+        
+        web[j] = set(links)
+    
+    return web
