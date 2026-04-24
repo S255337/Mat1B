@@ -14,6 +14,8 @@ def matrix_PageRank(web, power, d=0.85):
     v = np.ones(N) / N
     v = np.dot(M, v)
 
+    v = v / np.sum(v)
+
     for i in range(N):
         ranking[pages[i]] = v[i]
 
