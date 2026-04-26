@@ -11,8 +11,13 @@ def modified_link_matrix(web, pagelist, d=0.85):
 
         links = web[page]
 
+    for j, page in enumerate(pagelist):
+
+        links = web[page]
+
         if len(links) == 0:
-            A[j, :] = 1 / N 
+            A[j, :] = 1 / N
+        else:
             for target in links:
                 i = index[target]
                 A[j, i] = 1 / len(links)
