@@ -16,7 +16,7 @@ d = 0.85
 
 # 1: Random surfer med dæmpning
 start = time.time()
-ranking1 = random_surf_damp(web, 1000000, d)
+ranking1 = random_surf_damp(web, 500000, d)
 end = time.time()
 print("random_surf_damp:", end - start, "sekunder")
 
