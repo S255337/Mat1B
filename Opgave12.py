@@ -1,50 +1,59 @@
-import random
+import numpy as np
 
 def surf_step_damp(web, page, d):
+    
     distribution = dict()
-    N = len(web)
-
+    
+    pages = list(web.keys())
+    N = len(pages)
+    
+    probs = np.zeros(N)
+    
     links = web.get(page, [])
-
+    
     if len(links) == 0:
-        for p in web:
-            distribution[p] = 1 / N
+        # Hvis der ingen links er, så er sandsynligheden ligeligt fordelt
+        probs[:] = 1 / N
     else:
-        for p in web:
-            distribution[p] = (1 - d) / N
+        # Start med at fordele (1-d) ligeligt på alle sider
+        probs[:] = (1 - d) / N
         
+        # Fordel d på de sider der linkes til
         for link in links:
-            distribution[link] += d / len(links)
-
+            i = pages.index(link)
+            probs[i] += d / len(links)
+    
+    # Her laver vi en dictionary med sider og deres sandsynligheder
+    for i in range(N):
+        distribution[pages[i]] = probs[i]
+    
     return distribution
 
 def random_surf_damp(web, n, d):
+    
     ranking = dict()
-
+    
     for p in web:
         ranking[p] = 0
 
-    current_page = random.choice(list(web.keys()))
-
-    for _ in range(n):
+    pages = list(web.keys())
+    
+    # Start med at vælge en tilfældig startside
+    current_page = np.random.choice(pages)
+    
+    for i in range(n):
+        
         ranking[current_page] += 1
-
+        
         distribution = surf_step_damp(web, current_page, d)
-
-        pages = list(distribution.keys())
+        
+        next_pages = list(distribution.keys())
         probs = list(distribution.values())
-
-        current_page = random.choices(pages, probs)[0]
-
+        
+        current_page = np.random.choice(next_pages, p=probs)
+    
+    # Gør det til sandsynligheder (PageRank)
     for p in ranking:
-        ranking[p] /= n
-
+        ranking[p] = ranking[p] / n
+    
     return ranking
-
-dist = surf_step_damp({
-    "A": ["B", "C"],
-    "B": ["C"],
-    "C": []
-}, "A", 0.85)
-
-print(sum(dist.values()))

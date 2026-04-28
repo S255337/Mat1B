@@ -3,36 +3,28 @@ from Opgave17 import modified_link_matrix
 
 def matrix_PageRank(web, power, d=0.85):
 
-    ranking = dict() 
-
-    pages = list(web.keys())
-    N = len(pages)
-
-    M = modified_link_matrix(web, pages, d)
-    M = np.linalg.matrix_power(M, power)
-
+    ranking = dict()
+    
+    pagelist = list(web.keys())
+    N = len(pagelist)
+    
+    # Her laver vi den modificerede link matrix M
+    M = modified_link_matrix(web, pagelist, d)
+    
+    # Vi ganger M med sig selv power gange
+    M_power = np.linalg.matrix_power(M, power)
+    
+    # Startvektor med lige sandsynlighed for alle sider
     v = np.ones(N) / N
-    v = np.dot(M, v)
-
+    
+    # Vi ganger M_power med startvektoren v
+    v = M_power @ v
+    
+    # normaliser så summen bliver 1
     v = v / np.sum(v)
-
+    
+    # lav dictionary som output
     for i in range(N):
-        ranking[pages[i]] = v[i]
-
+        ranking[pagelist[i]] = v[i]
+    
     return ranking
-
-# Test af hastighed
-w1 = {
-    "A": ["B"],
-    "B": ["C"],
-    "C": ["A"]
-}
-
-w2 = {
-    "A": ["B", "C"],
-    "B": ["C"],
-    "C": []
-}
-
-print(matrix_PageRank(w1, 10))
-print(matrix_PageRank(w2, 10))

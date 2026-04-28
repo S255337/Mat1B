@@ -1,44 +1,55 @@
-import time
+import numpy as np
 from Opgave5 import make_web
 from Opgave35 import matrix_PageRank
-from Opgave12 import random_surf_damp 
 
 
-def test_damping(web, d_values, n_steps=100000):
-    for d in d_values:
-        print("="*40)
-        print(f"Dæmpning d = {d}")
-        
-        # 1. Matrix PageRank
-        start = time.time()
-        ranks_matrix = matrix_PageRank(web, power=50, d=d)
-        tid_matrix = time.time() - start
-        
-        print("Matrix metode:")
-        print("Tid:", round(tid_matrix, 4), "sekunder")
-        
-        top_matrix = sorted(ranks_matrix.items(), key=lambda x: x[1], reverse=True)[:5]
-        print("Top 5:", [(p, round(s, 6)) for p, s in top_matrix])
-        
-        
-        # 2. Random surfer (Opgave 12)
-        start = time.time()
-        ranks_surf = random_surf_damp(web, n_steps, d)
-        tid_surf = time.time() - start
-        
-        print("\nRandom surfer:")
-        print("Tid:", round(tid_surf, 4), "sekunder")
-        
-        top_surf = sorted(ranks_surf.items(), key=lambda x: x[1], reverse=True)[:5]
-        print("Top 5:", [(p, round(s, 6)) for p, s in top_surf])
-        
-        print()
-        
+def find_convergence(web, d, tolerance=1e-6, max_power=100):
 
-# -----------------------------
-# Kør test
-# -----------------------------
-print("Genererer netværk...\n")
-web = make_web(2000, 10)
+    old_rank = None
 
-test_damping(web, [0.5, 0.75, 0.85, 0.9])
+    for power in range(1, max_power + 1):
+
+        rank_dict = matrix_PageRank(web, power, d)
+
+        pages = list(rank_dict.keys())
+        new_rank = np.array([rank_dict[p] for p in pages])
+
+        if old_rank is not None:
+            diff = np.sum(np.abs(new_rank - old_rank))
+
+            if diff < tolerance:
+                return power, rank_dict
+
+        old_rank = new_rank
+
+    return max_power, rank_dict
+
+web = make_web(2000, 10, 0)
+
+d_values = [0.5, 0.75, 0.85, 0.9]
+
+# Gemmer top 5 for hver d (så vi kan sammenligne)
+top5_all = {}
+
+for d in d_values:
+    iterations, ranking = find_convergence(web, d)
+
+    print("\nDæmpning d =", d)
+    print("Antal iterationer før konvergens:", iterations)
+
+    sorted_pages = sorted(ranking.items(), key=lambda x: x[1], reverse=True)
+
+    print("Top 5 sider (side, værdi):")
+
+    top5 = []  # Gemmer top 5 sider
+
+    for i in range(5):
+        print(sorted_pages[i])
+        top5.append(sorted_pages[i][0])
+
+    top5_all[d] = top5
+
+print("Sammenligning af top 5 sider:")
+
+for d in d_values:
+    print("d =", d, ":", top5_all[d])

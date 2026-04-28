@@ -1,63 +1,43 @@
+import numpy as np
 import time
-from Opgave15 import recursive_PageRank
-from Opgave25 import pagerank_numpy
+
 from Opgave5 import make_web
-from Opgave35 import matrix_PageRank
+from Opgave12 import random_surf_damp
+from Opgave15 import recursive_PageRank
 from Opgave24 import eigenvector_PageRank
+from Opgave35 import matrix_PageRank
 
 
-def test_all(web, tol):
-    print("Tester med tolerance:", tol)
-    
-    # 1. Recursive PageRank
-    print("Kører Recursive PageRank:")
-    start = time.time()
-    
-    resultat = recursive_PageRank(web, stopvalue=tol)
-    antal_iterationer = resultat[1]
-    
-    tid = time.time() - start
-    print("Tid:", round(tid, 4), "sekunder")
-    print("Antal iterationer:", antal_iterationer, "\n")
-    
-    
-    # 2. NumPy PageRank
-    print("Kører NumPy PageRank")
-    start = time.time()
-    
-    pagerank_numpy(web, tolerance=tol)
-    
-    tid = time.time() - start
-    print("Tid:", round(tid, 4), "sekunder\n")
-    
-    
-    # 3. Eigenvector PageRank
-    print("Kører Eigenvector PageRank")
-    start = time.time()
-    
-    eigenvector_PageRank(web)
-    
-    tid = time.time() - start
-    print("Tid:", round(tid, 4), "sekunder\n")
-    
-    
-    # 4. Matrix power PageRank
-    print("Kører Matrix Power PageRank")
-    start = time.time()
-    
-    matrix_PageRank(web, power=50)
-    
-    tid = time.time() - start
-    print("Tid:", round(tid, 4), "sekunder\n")
-    
-    
-    return 
+# Her sætter vi et netværk op. 
+web = make_web(2000, 10, 0) #Vi har valgt 2000, for at det skulle være på et stort netværk.
+
+d = 0.85
 
 
-# Lav ét stort netværk
-print("Genererer et stort netværk\n")
-web = make_web(2000, 10)
+# 1: Random surfer med dæmpning
+start = time.time()
+ranking1 = random_surf_damp(web, 10000, d)
+end = time.time()
+print("random_surf_damp:", end - start, "sekunder")
 
-# Test med forskellige præcisioner
-for tol in [1e-3, 1e-6, 1e-9]:
-    test_all(web, tol)
+
+# 2: Rekursiv PageRank
+start = time.time()
+ranking2, iters = recursive_PageRank(web, d=d)
+end = time.time()
+print("recursive_PageRank:", end - start, "sekunder")
+
+
+# 3: Eigenvector metode
+start = time.time()
+ranking3 = eigenvector_PageRank(web, d)
+end = time.time()
+print("eigenvector_PageRank:", end - start, "sekunder")
+
+
+# 4: Matrix metode
+start = time.time()
+#Power=50 er et rimeligt valg for at sikre konvergens.
+ranking4 = matrix_PageRank(web, power=50, d=d) 
+end = time.time()
+print("matrix_PageRank:", end - start, "sekunder")
