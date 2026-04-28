@@ -13,13 +13,11 @@ web = make_web(2000, 10, 0)
 
 d = 0.85
 
-
 #1: Random surfer med dæmpning
 start = time.time()
-ranking1 = random_surf_damp(web, 500000, d)
+ranking1 = random_surf_damp(web, 2000000, d)
 end = time.time()
 print("random_surf_damp:", end - start, "sekunder")
-
 
 #2: Rekursiv PageRank
 start = time.time()
@@ -27,20 +25,17 @@ ranking2, iters = recursive_PageRank(web, d=d)
 end = time.time()
 print("recursive_PageRank:", end - start, "sekunder")
 
-
 #3: Eigenvector metode
 start = time.time()
 ranking3 = eigenvector_PageRank(web, d)
 end = time.time()
 print("eigenvector_PageRank:", end - start, "sekunder")
 
-
 #4: Matrix metode
 start = time.time()
 ranking4 = matrix_PageRank(web, power=30, d=d) 
 end = time.time()
 print("matrix_PageRank:", end - start, "sekunder")
-
 
 #Laver sammenligning af resultaterne ved at beregne den samlede absolutte forskel mellem hver metode og eigenvector (som reference). Jo mindre forskel, jo tættere er metoden på eigenvector-resultatet.
 pages = list(web.keys())
