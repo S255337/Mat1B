@@ -44,14 +44,14 @@ def recursive_PageRank(web, stopvalue=0.0001, max_iterations=200, d=0.85):
             break
 
     return PageRanks, iteration
-web = {
-    0: {1, 2},
-    1: {2},
-    2: {0},
-    3: set()
-}
+#web = {
+ #0: {1, 2},
+ #1: {2},
+ #2: {0},
+ #3: set()
+#}
 
-ranks, iters = recursive_PageRank(web)
+#ranks, iters = recursive_PageRank(web)
 
-print("PageRanks:", ranks)
-print("Iterations:", iters)
+#print("PageRanks:", ranks)
+#print("Iterations:", iters)

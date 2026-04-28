@@ -24,3 +24,16 @@ def eigenvector_PageRank(web, d=0.85):
         ranking[pagelist[j]] = v[j]
     
     return ranking
+
+#web = {
+    #"A": ["B", "C"],
+    #"B": ["C"],
+    #"C": ["A"],
+#}
+
+#ranking = eigenvector_PageRank(web)
+
+# Printer PageRank værdierne for hver side
+#for page, value in ranking.items():
+    #print(f"{page}: {value:.4f}")
+

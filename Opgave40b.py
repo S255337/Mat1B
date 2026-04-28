@@ -41,7 +41,7 @@ for d in d_values:
 
     print("Top 5 sider (side, værdi):")
 
-    top5 = []  # Gemmer top 5 sider
+    top5 = []  # Gemmer top 5 sider, så vi kan sammenligne senere
 
     for i in range(5):
         print(sorted_pages[i])
