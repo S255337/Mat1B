@@ -13,29 +13,29 @@ web = make_web(2000, 10, 0)
 
 d = 0.85
 
-#1: Random surfer med dæmpning
+#1: Random surfer
 start = time.time()
 ranking1 = random_surf_damp(web, 2000000, d)
-end = time.time()
-print("random_surf_damp:", end - start, "sekunder")
+t_random = time.time() - start
+print("random_surf_damp:", t_random, "sekunder")
 
 #2: Rekursiv PageRank
 start = time.time()
 ranking2, iters = recursive_PageRank(web, d=d)
-end = time.time()
-print("recursive_PageRank:", end - start, "sekunder")
+t_recursive = time.time() - start
+print("recursive_PageRank:", t_recursive, "sekunder")
 
 #3: Eigenvector metode
 start = time.time()
 ranking3 = eigenvector_PageRank(web, d)
-end = time.time()
-print("eigenvector_PageRank:", end - start, "sekunder")
+t_eigen = time.time() - start
+print("eigenvector_PageRank:", t_eigen, "sekunder")
 
 #4: Matrix metode
 start = time.time()
 ranking4 = matrix_PageRank(web, power=30, d=d) 
-end = time.time()
-print("matrix_PageRank:", end - start, "sekunder")
+t_matrix = time.time() - start
+print("matrix_PageRank:", t_matrix, "sekunder")
 
 #Laver sammenligning af resultaterne ved at beregne den samlede absolutte forskel mellem hver metode og eigenvector (som reference). Jo mindre forskel, jo tættere er metoden på eigenvector-resultatet.
 pages = list(web.keys())
@@ -55,3 +55,19 @@ print("\nAfvigelse fra eigenvector:")
 print("random_surf:", diff1)
 print("recursive:", diff2)
 print("matrix:", diff4)
+
+# Sammenligning af tider
+print("\n=== SAMMENLIGNING AF TID (sekunder) ===")
+print("random_surf_damp :", round(t_random, 3), "sek")
+print("recursive        :", round(t_recursive, 3), "sek")
+print("eigenvector      :", round(t_eigen, 3), "sek")
+print("matrix           :", round(t_matrix, 3), "sek")
+
+print("\n=== TID IFHT. EIGENVECTOR (sekunder) ===")
+
+print("random - eigen :", round(t_random - t_eigen, 3), "sek")
+print("recursive - eigen :", round(t_recursive - t_eigen, 3), "sek")
+print("matrix - eigen :", round(t_matrix - t_eigen, 3), "sek")
+
+print("random - recursive  :", round(t_random - t_recursive, 3), "sek")
+print("matrix - recursive :", round(t_matrix - t_recursive, 3), "sek")
