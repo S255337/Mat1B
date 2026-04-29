@@ -7,62 +7,60 @@ from Opgave15 import recursive_PageRank
 from Opgave24 import eigenvector_PageRank
 from Opgave35 import matrix_PageRank
 
-
-#Vi har valgt 2000, for at det skulle være på et stort netværk.
-web = make_web(2000, 10, 0) 
+web = make_web(2000, 10, 0)
 
 d = 0.85
 
-#1: Random surfer
+# 1: random_surf
 start = time.time()
-ranking1 = random_surf_damp(web, 20000, d)
+ranking1 = random_surf_damp(web, 2000000, d)
 t_random = time.time() - start
-print("random_surf_damp:", round(t_random, 6), "sekunder")
+print("random_surf_damp:", t_random)
 
-
-#2: Rekursiv PageRank
+# 2: recursive_PageRank
 start = time.time()
-ranking2, iters = recursive_PageRank(web, d=d)
+ranking2, _ = recursive_PageRank(web, d=d)
 t_recursive = time.time() - start
-print("recursive_PageRank:", round(t_recursive, 6), "sekunder")
+print("recursive_PageRank:", t_recursive)
 
-#3: Eigenvector metode
+# 3: eigenvector_PageRank
 start = time.time()
 ranking3 = eigenvector_PageRank(web, d)
 t_eigen = time.time() - start
-print("eigenvector_PageRank:", round(t_eigen, 6), "sekunder")
+print("eigenvector_PageRank:", t_eigen)
 
-#4: Matrix metode
+# 4: Matrix_PageRank
 start = time.time()
-ranking4 = matrix_PageRank(web, power=30, d=d) 
+ranking4 = matrix_PageRank(web, power=30, d=d)
 t_matrix = time.time() - start
-print("matrix_PageRank:", round(t_matrix, 6), "sekunder")
+print("matrix_PageRank:", t_matrix)
 
-#Laver sammenligning af resultaterne ved at beregne den samlede absolutte forskel mellem hver metode og eigenvector (som reference). Jo mindre forskel, jo tættere er metoden på eigenvector-resultatet.
+# Sammenligning af resultater
 pages = list(web.keys())
 
-#Laver arrays for hver ranking, så vi kan beregne forskelle
+# Arrays for PageRank værdier   
 r1 = np.array([ranking1[p] for p in pages])
 r2 = np.array([ranking2[p] for p in pages])
-r3 = np.array([ranking3[p] for p in pages])  # reference (eigenvector)
+r3 = np.array([ranking3[p] for p in pages])  # reference
 r4 = np.array([ranking4[p] for p in pages])
 
-#Her beregner vi den samlede absolutte forskel mellem hver metode og eigenvector-resultatet
+# Beregning af afvigelse fra eigenvector_PageRank
 diff1 = np.sum(np.abs(r1 - r3))
 diff2 = np.sum(np.abs(r2 - r3))
 diff4 = np.sum(np.abs(r4 - r3))
 
+# Sammenligning af PageRank værdier 
 print("\nAfvigelse fra eigenvector:")
 print("random_surf:", diff1)
-print("recursive:", diff2) 
+print("recursive:", diff2)
 print("matrix:", diff4)
 
 # Sammenligning af tider
 print("\n Sammenligning af tider")
-print("random_surf_damp :", round(t_random, 6), "sek")
-print("recursive        :", round(t_recursive, 6), "sek")
-print("eigenvector      :", round(t_eigen, 6), "sek")
-print("matrix           :", round(t_matrix, 6), "sek")
+print("random_surf_damp:", round(t_random, 6), "sek")
+print("recursive:", round(t_recursive, 6), "sek")
+print("eigenvector:", round(t_eigen, 6), "sek")
+print("matrix:", round(t_matrix, 6), "sek")
 
 print("\nTid i forhold til eigenvector:")
 
