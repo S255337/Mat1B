@@ -1,3 +1,5 @@
+from Opgave5 import make_web
+
 def rank_update(web, PageRanks, page, d):
 
     number_of_pages = len(web)
@@ -13,6 +15,8 @@ def rank_update(web, PageRanks, page, d):
             contribution = PageRanks[other_page] / len(outgoing_links)
             new_rank += d * contribution
     increment = abs(new_rank - PageRanks[page])
+
+    print("Increment for page", page, ":", increment)
 
     PageRanks[page] = new_rank
 
@@ -44,3 +48,7 @@ def recursive_PageRank(web, stopvalue=0.0001, max_iterations=200, d=0.85):
             break
 
     return PageRanks, iteration
+
+web = make_web(5, 2, 0)
+
+recursive_PageRank(web)
