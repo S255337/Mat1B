@@ -7,33 +7,40 @@ def eigenvector_PageRank(web, d=0.85):
     
     pagelist = list(web.keys())
     
+    # Vi laver den modificerede link matrix (M)
     M = modified_link_matrix(web, pagelist, d)
     
+    # Så finder vi egenværdier og egenvektorer
     eigvals, eigvecs = np.linalg.eig(M)
     
-    i = np.argmin(np.abs(eigvals - 1))
+    # Finder egenværdi tættest på 1
+    index = np.argmin(np.abs(eigvals - 1))
     
-    v = eigvecs[:, i]
+    # Vi tager den tilsvarende egenvektor
+    v = eigvecs[:, index]
     
+    # Tager kun den reelle del
     v = np.real(v)
-    v = np.abs(v)
     
+    # Sørg for at alle værdier er positive, da PageRank skal være positiv
+    if np.sum(v) < 0:
+        v = -v
+    
+    # Normaliser så summen bliver 1
     v = v / np.sum(v)
     
-    for j in range(len(pagelist)):
-        ranking[pagelist[j]] = v[j]
+    # Så laver vi et dictionary for at matche hver side med dens PageRank værdi
+    for i in range(len(pagelist)):
+        ranking[pagelist[i]] = v[i]
     
     return ranking
 
-#web = {
-    #"A": ["B", "C"],
-    #"B": ["C"],
-    #"C": ["A"],
-#}
+web = {0: {1, 2}, 1: {2}, 2: {0}, 3: set()
+}   
 
-#ranking = eigenvector_PageRank(web)
+ranking = eigenvector_PageRank(web)
 
 # Printer PageRank værdierne for hver side
-#for page, value in ranking.items():
-    #print(f"{page}: {value:.4f}")
+for page, value in ranking.items():
+    print(f"{page}: {value:.4f}")
 

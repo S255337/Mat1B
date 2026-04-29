@@ -1,62 +1,46 @@
-import numpy as np
-
 def rank_update(web, PageRanks, page, d):
-    
-    # Hvor mange sider er der i alt
+
     number_of_pages = len(web)
-    
-    # Start med den del hvor man hopper tilfældigt
-    new_rank_value = (1 - d) / number_of_pages
-    
-    # Kig på alle sider i nettet
+    new_rank = (1 - d) / number_of_pages
+
     for other_page in web:
-        
-        # Hvis der er et link til den side vi kigger på
-        if page in web[other_page] and len(web[other_page]) > 0:
-            new_rank_value += d * PageRanks[other_page] / len(web[other_page])
-        
-        # Hvis siden ikke har nogen links (sink)
-        if len(web[other_page]) == 0:
-            new_rank_value += d * PageRanks[other_page] / number_of_pages
-    
-    # Hvor meget har værdien ændret sig
-    change_in_rank = abs(PageRanks[page] - new_rank_value)
-    
-    # Opdater værdien
-    PageRanks[page] = new_rank_value
-    
-    return change_in_rank
+        outgoing_links = web[other_page]
+        if len(outgoing_links) == 0:
+            contribution = PageRanks[other_page] / number_of_pages
+            new_rank += d * contribution
+
+        elif page in outgoing_links:
+            contribution = PageRanks[other_page] / len(outgoing_links)
+            new_rank += d * contribution
+    increment = abs(new_rank - PageRanks[page])
+
+    PageRanks[page] = new_rank
+
+    return increment
 
 
-def recursive_PageRank(web, stop_value=0.0001, max_iterations=200, d=0.85):
-    
-    # Antal sider
+
+def recursive_PageRank(web, stopvalue=0.0001, max_iterations=200, d=0.85):
     number_of_pages = len(web)
-    
-    # Start med at alle sider har samme værdi
-    PageRanks = {}
+
+    PageRanks = dict()
+
     for page in web:
         PageRanks[page] = 1 / number_of_pages
-    
+
     iteration = 0
-    
-    # Kør flere gange indtil vi stopper
-    for i in range(max_iterations):
-        
-        biggest_change = 0
-        
-        # Opdater hver side én ad gangen
+
+    while iteration < max_iterations:
+        largest_change = 0 
+
         for page in web:
             change = rank_update(web, PageRanks, page, d)
-            
-            # Gem den største ændring vi ser
-            if change > biggest_change:
-                biggest_change = change
-        
+            if change > largest_change:
+                largest_change = change
+
         iteration += 1
-        
-        # Stop hvis ændringen er meget lille
-        if biggest_change < stop_value:
+
+        if largest_change < stopvalue:
             break
-    
+
     return PageRanks, iteration

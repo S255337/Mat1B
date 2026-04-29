@@ -1,5 +1,5 @@
 #Venstre side: PageRank for næste iteration - for side p
-Højre side, første link: (1-d)1/n+d 
+#Højre side, første link: (1-d)1/n+d 
 #d er en given sandsynlighed for at følge et link
 #1-d er sandsynligheden for "random jump"
 #1/N fordi alle sider er lige sandsynelige

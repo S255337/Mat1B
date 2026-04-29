@@ -6,9 +6,7 @@ from Opgave24 import eigenvector_PageRank
 web = make_web(5000, 10, 0)
 
 start = time.time()
-
-# Beregner PageRank
-ranking = eigenvector_PageRank(web)
+eigenvector_PageRank(web)
 
 end = time.time()
 
