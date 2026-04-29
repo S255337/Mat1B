@@ -49,6 +49,13 @@ def recursive_PageRank(web, stopvalue=0.0001, max_iterations=200, d=0.85):
 
     return PageRanks, iteration
 
-web = make_web(5, 2, 0)
+W1 = {0: {1, 2}, 1: {2}, 2: {0}, 3: set()}
+W2 = {0: {1}, 1: {2}, 2: {3}, 3: {0}}
 
-recursive_PageRank(web)
+print("W1:")
+ranks1, it1 = recursive_PageRank(W1)
+print("Result:", ranks1, "iterationer:", it1)
+
+print("\nW2:")
+ranks2, it2 = recursive_PageRank(W2)
+print("Result:", ranks2, "iterationer:", it2)
