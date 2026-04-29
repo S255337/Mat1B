@@ -3,11 +3,8 @@ from Opgave9 import surf_step
 from Opgave10 import random_surf
 
 # Vi sætter to webs op, W1 og W2, som vi bruger til at teste vores random_surf funktion
-W1 = {0: {1, 2},1: {2},2: {0},3: set()
-}
-
-W2 = {0: {1},1: {2},2: {3},3: {0}
-}
+W1 = {0: {2, 4}, 1: {3, 4}, 2: {0}, 3: {0, 1, 4}, 4: set()}
+W2 = {0: {1}, 1: {2}, 2: {0}, 3: {4}, 4:{5}, 5: {3}} 
 
 # Her laver vi et for loop for at teste til 100-106
 for n in range(100, 106, 1):

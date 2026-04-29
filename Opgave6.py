@@ -25,7 +25,6 @@ def visualize_graph(web):
 
 
 # Eksempel, så man kan se hvordan det ender med at se ud, rent visuelt.
-web = {0: {1, 2},1: {2},2: {0},3: set()
-}
+web = {0: {2, 4}, 1: {3, 4}, 2: {0}, 3: {0, 1, 4}, 4: set()}
 
 visualize_graph(web)

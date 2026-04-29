@@ -2,8 +2,8 @@ from Opgave10 import random_surf
 from Opgave12 import random_surf_damp
 
 d = 0.85
-W1 = {0: {1, 2}, 1: {2}, 2: {0}, 3: set()}
-W2 = {0: {1}, 1: {2}, 2: {3}, 3: {0}}
+W1 = {0: {2, 4}, 1: {3, 4}, 2: {0}, 3: {0, 1, 4}, 4: set()}
+W2 = {0: {1}, 1: {2}, 2: {0}, 3: {4}, 4:{5}, 5: {3}} 
 
 # W1 med n = 100-106
 for n in range(100, 106):

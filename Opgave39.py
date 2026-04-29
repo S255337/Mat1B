@@ -39,7 +39,8 @@ def plot_ranking(web, ranking, d=0.85):
     plt.axis("off")
     plt.show()
 
-web = {0: {1, 2}, 1: {2}, 2: {0}, 3: set()}
+web = {0: {2, 4}, 1: {3, 4}, 2: {0}, 3: {0, 1, 4}, 4: set()}  
+
 
 ranking = random_surf(web, 10000)
 

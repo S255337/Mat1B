@@ -32,10 +32,8 @@ def modified_link_matrix(web, pagelist, d=0.85):
     
     return M
 
-W1 = {0: {1, 2}, 1: {2}, 2: {0}
-}
-W2 = {0: {1}, 1: set(), 2: {0, 1}
-}   
+W1 = {0: {2, 4}, 1: {3, 4}, 2: {0}, 3: {0, 1, 4}, 4: set()}
+W2 = {0: {1}, 1: {2}, 2: {0}, 3: {4}, 4:{5}, 5: {3}}  
 
 pagelist_W1 = list(W1.keys())
 pagelist_W2 = list(W2.keys())
