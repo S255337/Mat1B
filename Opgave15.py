@@ -48,9 +48,18 @@ def recursive_PageRank(web, stopvalue=0.0001, max_iterations=200, d=0.85):
             break
 
     return PageRanks, iteration
+<<<<<<< HEAD
 
 W1 = {0: {2, 4}, 1: {3, 4}, 2: {0}, 3: {0, 1, 4}, 4: set()}
 W2 = {0: {1}, 1: {2}, 2: {0}, 3: {4}, 4:{5}, 5: {3}}     
+=======
+#random netværk
+#W1 = {0: {1, 2}, 1: {2}, 2: {0}, 3: set()}
+#W2 = {0: {1}, 1: {2}, 2: {3}, 3: {0}}
+#Efter opg 1 og 2 W netværk.
+W1 = {0: {2, 4}, 1: {3, 4}, 2: {0}, 3: {0, 1, 4}, 4: set()}
+W2 = {0: {1}, 1: {2}, 2: {1}, 3: {0}, 4: {5}, 5: {6}, 6: {4}}
+>>>>>>> 2353308cbbdd373a841df6ae8abe2eee939b8dfd
 
 print("W1:")
 ranks1, it1 = recursive_PageRank(W1)
