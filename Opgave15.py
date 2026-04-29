@@ -1,57 +1,62 @@
 import numpy as np
 
-def rank_update(web, PageRanks, old_ranks, page, d):
+def rank_update(web, PageRanks, page, d):
+    
+    # Hvor mange sider er der i alt
+    number_of_pages = len(web)
+    
+    # Start med den del hvor man hopper tilfældigt
+    new_rank_value = (1 - d) / number_of_pages
+    
+    # Kig på alle sider i nettet
+    for other_page in web:
+        
+        # Hvis der er et link til den side vi kigger på
+        if page in web[other_page] and len(web[other_page]) > 0:
+            new_rank_value += d * PageRanks[other_page] / len(web[other_page])
+        
+        # Hvis siden ikke har nogen links (sink)
+        if len(web[other_page]) == 0:
+            new_rank_value += d * PageRanks[other_page] / number_of_pages
+    
+    # Hvor meget har værdien ændret sig
+    change_in_rank = abs(PageRanks[page] - new_rank_value)
+    
+    # Opdater værdien
+    PageRanks[page] = new_rank_value
+    
+    return change_in_rank
 
-    N = len(web)
-    new_rank = (1 - d) / N
 
-    for q in web:
-
-        # link contribution
-        if page in web[q] and len(web[q]) > 0:
-            new_rank += d * old_ranks[q] / len(web[q])
-
-        # sink nodes (no outgoing links)
-        if len(web[q]) == 0:
-            new_rank += d * old_ranks[q] / N
-
-    increment = abs(PageRanks[page] - new_rank)
-    PageRanks[page] = new_rank
-
-    return increment
-
-
-def recursive_PageRank(web, stopvalue=0.0001, max_iterations=200, d=0.85):
-
-    N = len(web)
-
-    PageRanks = {page: 1 / N for page in web}
-
+def recursive_PageRank(web, stop_value=0.0001, max_iterations=200, d=0.85):
+    
+    # Antal sider
+    number_of_pages = len(web)
+    
+    # Start med at alle sider har samme værdi
+    PageRanks = {}
+    for page in web:
+        PageRanks[page] = 1 / number_of_pages
+    
     iteration = 0
-
-    for _ in range(max_iterations):
-
-        old_ranks = PageRanks.copy()
-        max_change = 0
-
+    
+    # Kør flere gange indtil vi stopper
+    for i in range(max_iterations):
+        
+        biggest_change = 0
+        
+        # Opdater hver side én ad gangen
         for page in web:
-            inc = rank_update(web, PageRanks, old_ranks, page, d)
-            max_change = max(max_change, inc)
-
+            change = rank_update(web, PageRanks, page, d)
+            
+            # Gem den største ændring vi ser
+            if change > biggest_change:
+                biggest_change = change
+        
         iteration += 1
-
-        if max_change < stopvalue:
+        
+        # Stop hvis ændringen er meget lille
+        if biggest_change < stop_value:
             break
-
+    
     return PageRanks, iteration
-#web = {
- #0: {1, 2},
- #1: {2},
- #2: {0},
- #3: set()
-#}
-
-#ranks, iters = recursive_PageRank(web)
-
-#print("PageRanks:", ranks)
-#print("Iterations:", iters)

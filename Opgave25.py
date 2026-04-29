@@ -12,4 +12,4 @@ ranking = eigenvector_PageRank(web)
 
 end = time.time()
 
-print("Det tager", end - start, "sekunder at beregne PageRanken")
+print("Det tager", round(end - start, 6), "sekunder at beregne PageRanken")

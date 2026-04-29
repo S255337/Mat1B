@@ -1,46 +1,34 @@
 import numpy as np
+from Opgave9 import surf_step
 from Opgave10 import random_surf
-from Opgave12 import random_surf_damp
 
-d = 0.85
-
-# Netværkene fra opgave 11
-W1 = {
-    "LinkA": ["LinkB", "LinkC"],
-    "LinkB": ["LinkC"],
-    "LinkC": []
+# Vi sætter to webs op, W1 og W2, som vi bruger til at teste vores random_surf funktion
+W1 = {0: {1, 2},1: {2},2: {0},3: set()
 }
 
-W2 = {
-    "LinkA": ["LinkB"],
-    "LinkB": ["LinkA"],
-    "LinkC": ["LinkA", "LinkB"]
+W2 = {0: {1},1: {2},2: {3},3: {0}
 }
 
-# Samme n-værdier som i opgave 11
-n_values = np.array([100, 1000, 10000])
+# Her laver vi et for loop for at teste til 100-106
+for n in range(100, 106, 1):
+    print(random_surf(W1, n))
 
-print("W1:")
-for n in n_values:
-    print("n =", n)
-    print("uden dæmpning:", random_surf(W1, int(n)))
-    print("med dæmpning :", random_surf_damp(W1, int(n), d))
-    print()
+# W1 med n = 1000-1006
+for n in range(1000, 1006, 1):
+    print(random_surf(W1, n))
 
-print("W2:")
-for n in n_values:
-    print("n =", n)
-    print("uden dæmpning:", random_surf(W2, int(n)))
-    print("med dæmpning :", random_surf_damp(W2, int(n), d))
-    print()
+# W1 med n = 10000-10006
+for n in range(10000, 10006, 1):
+    print(random_surf(W1, n))
 
-# Stabilitetstest for n omkring 100 og 10000
-print("W1 omkring n = 100:")
-for n in np.arange(100, 106):
-    print("n =", n, random_surf_damp(W1, int(n), d))
+# W2 med n = 100-106
+for n in range(100, 106, 1):
+    print(random_surf(W2, n))
 
-print()
+# W2 med n = 1000-1006
+for n in range(1000, 1006, 1):
+    print(random_surf(W2, n))
 
-print("W2 omkring n = 10000:")
-for n in np.arange(10000, 10006):
-    print("n =", n, random_surf_damp(W2, int(n), d))
+# W2 med n = 10000-10006
+for n in range(10000, 10006, 1):
+    print(random_surf(W2, n))

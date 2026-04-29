@@ -14,7 +14,7 @@ def make_web(n, k, kmin=0):
         # mulige sider (uden j selv)
         possible_links = list(set(keys) - {j})
         
-        # vælg numlinks unikke links
+    # vælg numlinks unikke links
         links = set(np.random.choice(possible_links, size=numlinks, replace=False))
         
         web[j] = links

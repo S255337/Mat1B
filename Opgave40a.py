@@ -15,27 +15,28 @@ d = 0.85
 
 #1: Random surfer
 start = time.time()
-ranking1 = random_surf_damp(web, 2000000, d)
+ranking1 = random_surf_damp(web, 20000, d)
 t_random = time.time() - start
-print("random_surf_damp:", t_random, "sekunder")
+print("random_surf_damp:", round(t_random, 6), "sekunder")
+
 
 #2: Rekursiv PageRank
 start = time.time()
 ranking2, iters = recursive_PageRank(web, d=d)
 t_recursive = time.time() - start
-print("recursive_PageRank:", t_recursive, "sekunder")
+print("recursive_PageRank:", round(t_recursive, 6), "sekunder")
 
 #3: Eigenvector metode
 start = time.time()
 ranking3 = eigenvector_PageRank(web, d)
 t_eigen = time.time() - start
-print("eigenvector_PageRank:", t_eigen, "sekunder")
+print("eigenvector_PageRank:", round(t_eigen, 6), "sekunder")
 
 #4: Matrix metode
 start = time.time()
 ranking4 = matrix_PageRank(web, power=30, d=d) 
 t_matrix = time.time() - start
-print("matrix_PageRank:", t_matrix, "sekunder")
+print("matrix_PageRank:", round(t_matrix, 6), "sekunder")
 
 #Laver sammenligning af resultaterne ved at beregne den samlede absolutte forskel mellem hver metode og eigenvector (som reference). Jo mindre forskel, jo tættere er metoden på eigenvector-resultatet.
 pages = list(web.keys())
@@ -53,21 +54,18 @@ diff4 = np.sum(np.abs(r4 - r3))
 
 print("\nAfvigelse fra eigenvector:")
 print("random_surf:", diff1)
-print("recursive:", diff2)
+print("recursive:", diff2) 
 print("matrix:", diff4)
 
 # Sammenligning af tider
-print("\n=== SAMMENLIGNING AF TID (sekunder) ===")
-print("random_surf_damp :", round(t_random, 3), "sek")
-print("recursive        :", round(t_recursive, 3), "sek")
-print("eigenvector      :", round(t_eigen, 3), "sek")
-print("matrix           :", round(t_matrix, 3), "sek")
+print("\n Sammenligning af tider")
+print("random_surf_damp :", round(t_random, 6), "sek")
+print("recursive        :", round(t_recursive, 6), "sek")
+print("eigenvector      :", round(t_eigen, 6), "sek")
+print("matrix           :", round(t_matrix, 6), "sek")
 
-print("\n=== TID IFHT. EIGENVECTOR (sekunder) ===")
+print("\nTid i forhold til eigenvector:")
 
-print("random - eigen :", round(t_random - t_eigen, 3), "sek")
-print("recursive - eigen :", round(t_recursive - t_eigen, 3), "sek")
-print("matrix - eigen :", round(t_matrix - t_eigen, 3), "sek")
-
-print("random - recursive  :", round(t_random - t_recursive, 3), "sek")
-print("matrix - recursive :", round(t_matrix - t_recursive, 3), "sek")
+print("random - eigen :", round(t_random - t_eigen, 6), "sek")
+print("recursive - eigen :", round(t_recursive - t_eigen, 6), "sek")
+print("matrix - eigen :", round(t_matrix - t_eigen, 6), "sek")

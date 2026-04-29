@@ -3,26 +3,32 @@ import numpy as np
 def surf_step(web, page):
 
     distribution = dict()
-    
     pages = list(web.keys())
     n = len(pages)
     
-    #Laver et array til sandsynligheder
-    probs = np.zeros(n)
-    
+    # Her laver vi et array til at holde sandsynlighederne for at lande på hver side
+    probability = np.zeros(n)
     links = web.get(page, [])
     
     if len(links) == 0:
         # Hvis der ingen links er, så er sandsynligheden ligeligt fordelt
-        probs[:] = 1 / n
+        probability[:] = 1 / n
     else:
-        # Fordeler sandsynligheden ligeligt på alle sider
-        for link in links:
-            i = pages.index(link)
-            probs[i] = 1 / len(links)
-    
-    # Laver en dictionary med sider og deres sandsynligheder
+        # Vi laver et for loop til at sætte sandsynlighederne for de sider, der er linket til
+        for i in range(n):
+            if pages[i] in links:
+                probability[i] = 1 / len(links)
+
+    # Vi laver et dictionary hvor nøglerne er siderne og værdierne er sandsynlighederne
     for i in range(n):
-        distribution[pages[i]] = probs[i]
-    
+        distribution[pages[i]] = probability[i]
+        
     return distribution
+
+# Eksempel hvor vi tester ovenstående funktion og tjekker sandsynlighederne for at lande på hver side
+web = {0: {1, 2},1: {2},2: {0},3: set()
+}
+
+result = surf_step(web, 0)
+
+print(result)
