@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def surf_step(web, page):
     distribution = dict()
     pages = list(web.keys())

@@ -1,10 +1,10 @@
 import numpy as np
 
 def modified_link_matrix(web, pages, d=0.85):
-    n = len(pages)
+    N = len(pages)
     
     # Laver et tomt link matrix A
-    A = np.zeros((n, n))
+    A = np.zeros((N, N))
     
     # Mapping fra side til indeks
     page_index = {page: i for i, page in enumerate(pages)}
@@ -14,19 +14,19 @@ def modified_link_matrix(web, pages, d=0.85):
         
         if not links:
             # Hvis siden ikke linker til noget
-            A[j, :] = 1 / n
+            A[j, :] = 1 / N
         else:
             prob = 1 / len(links)
             for link in links:
                 A[j, page_index[link]] = prob
     
     # Den givne formel for M
-    M = d * A.T + (1 - d) / n * np.ones((n, n))
+    M = d * A.T + (1 - d) / N * np.ones((N, N))
     
     return M
 
 
-# Test data
+# Test
 W1 = {0: {2, 4}, 1: {3, 4}, 2: {0}, 3: {0, 1, 4}, 4: set()}
 W2 = {0: {1}, 1: {2}, 2: {0}, 3: {4}, 4: {5}, 5: {3}}
 

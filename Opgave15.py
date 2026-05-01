@@ -8,7 +8,6 @@ def rank_update(web, ranks, page, d):
 
     for other, links in web.items():
         if not links:
-            # dangling page
             new_rank += d * (ranks[other] / n)
         elif page in links:
             new_rank += d * (ranks[other] / len(links))
@@ -19,23 +18,23 @@ def rank_update(web, ranks, page, d):
     return change
 
 
-def recursive_pagerank(web, tol=1e-4, max_iter=200, d=0.85):
+def recursive_pagerank(web, stopvalue=0.0001, max_iterations=200, d=0.85):
     n = len(web)
 
     # Starter med lige fordeling
     ranks = {page: 1 / n for page in web}
 
-    for i in range(max_iter):
+    for i in range(max_iterations):
         max_change = 0
 
         for page in web:
             change = rank_update(web, ranks, page, d)
             max_change = max(max_change, change)
 
-        if max_change < tol:
+        if max_change < stopvalue:
             return ranks, i + 1
 
-    return ranks, max_iter
+    return ranks, max_iterations
 
 
 # Test
