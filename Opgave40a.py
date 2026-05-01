@@ -31,7 +31,7 @@ print("eigenvector_PageRank:", t_eigen)
 
 # 4: Matrix_PageRank
 start = time.time()
-ranking4 = matrix_PageRank(web, power=30, d=d)
+ranking4 = matrix_PageRank(web, power=10, d=d)
 t_matrix = time.time() - start
 print("matrix_PageRank:", t_matrix)
 
@@ -41,7 +41,7 @@ pages = list(web.keys())
 # Arrays for PageRank værdier   
 r1 = np.array([ranking1[p] for p in pages])
 r2 = np.array([ranking2[p] for p in pages])
-r3 = np.array([ranking3[p] for p in pages])  # reference
+r3 = np.array([ranking3[p] for p in pages])
 r4 = np.array([ranking4[p] for p in pages])
 
 # Beregning af afvigelse fra eigenvector_PageRank

@@ -16,13 +16,12 @@ def rank_update(web, PageRanks, page, d):
             new_rank += d * contribution
     increment = abs(new_rank - PageRanks[page])
 
-    print("Increment for page", page, ":", increment)
+    #print("Increment for page", page, ":", increment)
 
     PageRanks[page] = new_rank
 
-    return increment
-
-
+    return increment 
+    
 
 def recursive_PageRank(web, stopvalue=0.0001, max_iterations=200, d=0.85):
     number_of_pages = len(web)
@@ -50,7 +49,7 @@ def recursive_PageRank(web, stopvalue=0.0001, max_iterations=200, d=0.85):
     return PageRanks, iteration
 
 W1 = {0: {2, 4}, 1: {3, 4}, 2: {0}, 3: {0, 1, 4}, 4: set()}
-W2 = {0: {1}, 1: {2}, 2: {0}, 3: {4}, 4:{5}, 5: {3}}     
+W2 = {0: {1}, 1: {2}, 2: {0}, 3: {4}, 4: {5}, 5: {3}}     
 
 print("W1:")
 ranks1, it1 = recursive_PageRank(W1)

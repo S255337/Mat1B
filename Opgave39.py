@@ -41,7 +41,6 @@ def plot_ranking(web, ranking, d=0.85):
 
 web = {0: {2, 4}, 1: {3, 4}, 2: {0}, 3: {0, 1, 4}, 4: set()}  
 
-
 ranking = random_surf(web, 10000)
 
 plot_ranking(web, ranking)
