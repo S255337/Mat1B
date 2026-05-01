@@ -8,14 +8,14 @@ def matrix_PageRank(web, power, d=0.85):
     ranking = dict()
 
     pages = list(web)
-    n = len(pages)
+    N = len(pages)
 
     M = modified_link_matrix(web, pages, d)
 
     M_power = np.linalg.matrix_power(M, power)
 
     # start med lige fordeling
-    v = np.ones(n) / n
+    v = np.ones(N) / N
 
     v = M_power @ v
 
